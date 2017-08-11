@@ -7,23 +7,82 @@
     tools:context="com.pigchen.awesomeseries.MainActivity"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
-
-    <FrameLayout
+    <LinearLayout
         android:animateLayoutChanges="true"
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/colorPrimary">
-
-    </FrameLayout>
-    <FrameLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary"
+        >
+        <FrameLayout
+            android:paddingTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <com.pigchen.awesomeseries.MiClockView
+            android:id="@+id/clockView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            />
+            <TextView
+                android:id="@+id/clockDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12 : 00"
+                android:visibility="gone"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="20dp"
+                android:textSize="25sp"/>
+        </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="北京"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:textSize="15sp"
+            android:paddingBottom="20dp"
+            android:layout_marginBottom="20dp"
+            />
+    </LinearLayout>
+    <com.pigchen.awesomeseries.BottomContainerLayout
         android:id="@+id/bottom"
-        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="-300dp"
-        android:background="@color/colorAccent">
-
-    </FrameLayout>
+        android:layout_marginBottom="-200dp"
+        android:textColor="@android:color/white"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="今天走路步数\n5000步"
+            android:textColor="@android:color/background_dark"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="10dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="item1"
+            android:textColor="@android:color/background_dark"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="10dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="item2"
+            android:textColor="@android:color/background_dark"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="10dp"
+            />
+    </com.pigchen.awesomeseries.BottomContainerLayout>
 
 </LinearLayout>
