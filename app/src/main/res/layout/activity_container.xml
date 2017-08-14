@@ -13,13 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimary"
         >
         <FrameLayout
             android:paddingTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <com.pigchen.awesomeseries.MiClockView
+        <com.pigchen.awesomeseries.MainClockView
             android:id="@+id/clockView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,7 +43,6 @@
             android:gravity="center"
             android:background="@color/colorPrimary"
             android:textSize="15sp"
-            android:paddingBottom="20dp"
             android:layout_marginBottom="20dp"
             />
     </LinearLayout>

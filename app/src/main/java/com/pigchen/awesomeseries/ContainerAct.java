@@ -5,12 +5,12 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 /**
  * Created by chendong on 2017/8/9.
  */
-
 public class ContainerAct extends Activity implements onGestureListener {
 
     String TAG = "ContainerAct";
@@ -26,6 +26,12 @@ public class ContainerAct extends Activity implements onGestureListener {
         bottom = (BottomContainerLayout) findViewById(R.id.bottom);
         act = (LinearLayout) findViewById(R.id.act);
         bottom.setGestureListener(this);
+        top.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+            }
+        });
     }
 
 
