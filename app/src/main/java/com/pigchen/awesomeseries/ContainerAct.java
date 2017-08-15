@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by chendong on 2017/8/9.
@@ -17,11 +18,15 @@ public class ContainerAct extends Activity implements onGestureListener {
     BottomContainerLayout bottom;
     LinearLayout top,act;
     private  float TOP = convertDpToPixel(200);
-    private  float BOTTOM ;
+    private float BOTTOM;
+    private MainClockView clockView;
+    private android.widget.TextView clockDigit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
+        this.clockDigit = (TextView) findViewById(R.id.clockDigit);
+        this.clockView = (MainClockView) findViewById(R.id.clockView);
         top = (LinearLayout) findViewById(R.id.top);
         bottom = (BottomContainerLayout) findViewById(R.id.bottom);
         act = (LinearLayout) findViewById(R.id.act);

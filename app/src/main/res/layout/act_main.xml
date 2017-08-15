@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.pigchen.awesomeseries.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/clockDigit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="12 : 00"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:textSize="25sp"/>
+        <com.pigchen.awesomeseries.MainClockView
+            android:id="@+id/clockView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="北京"
+            android:textColor="@color/watchCir_enable"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_gravity="bottom"
+            />
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_view"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+</com.pigchen.awesomeseries.DragLayout>
