@@ -6,10 +6,15 @@
 
 
 
+    <color name="white">#ffffff</color>
+    <color name="white_30">#50ffffff</color>
     <color name="primaryColor">#02b9ae</color>
-    <color name="watchCir_enable">#AFB4BB</color>
+    <color name="primaryColor_unable">#5f6977</color>
+    <color name="watchCir_unable">#AFB4BB</color>
     <color name="minuteHand_normal">#272727</color>
-    <color name="minuteHand_enable">#43484F</color>
+    <color name="minuteHand_unable">#43484F</color>
+    <color name="hourHand_normal">#4d4d4d</color>
+    <color name="hourHand_unable">#63676e</color>
 
 
 

@@ -2,6 +2,7 @@ package com.pigchen.awesomeseries;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
@@ -20,8 +21,8 @@ import android.widget.LinearLayout;
  */
 public class DragLayout extends LinearLayout implements NestedScrollingParent {
     private NestedScrollingParentHelper nsph;
-    private  float moveDir = 0;
-    private  float count = 0;
+    private float moveDir ;
+    private float count;
     //分别表示RecyclerView上面那个View（是个ViewGroup），Recyclerview，收缩之后上面显示的View，展开之后上面显示的View
     private View topView, bottomView, smallView, bigView;
 
@@ -31,7 +32,7 @@ public class DragLayout extends LinearLayout implements NestedScrollingParent {
 
     public DragLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
+        nsph = new NestedScrollingParentHelper(this);
     }
 
     //onFinishInflate方法中获得各个子view
@@ -48,7 +49,6 @@ public class DragLayout extends LinearLayout implements NestedScrollingParent {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         //重新设置Recyclerview的高度，保证Recyclerview的高度和收缩之后上面显示的View的高度之和等于整个ViewGroup的高度
         LayoutParams params = (LayoutParams) bottomView.getLayoutParams();
         int bottomHeight = getHeight() - smallView.getHeight();
@@ -62,8 +62,6 @@ public class DragLayout extends LinearLayout implements NestedScrollingParent {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
     }
-
-
 
 
     @Override
@@ -85,10 +83,10 @@ public class DragLayout extends LinearLayout implements NestedScrollingParent {
                 && ((RecyclerView) bottomView).getChildCount() > 0) //如果RecyclerView为空，则不能向上滑动
                 || (dy < 0 && bottomView.getTranslationY() < 0
                 //判断RecyclerView内部是否可以向下滑动，如果可以，则Recyclerview无法整体向下滑动
-                && !ViewCompat.canScrollVertically(target, - 1))) {
-            if (count == 0) {
-                moveDir = dy > 0 ? 1 : 2;
-            }
+                && !ViewCompat.canScrollVertically(target, -1))) {
+//            if (count == 0) {
+//                moveDir = dy > 0 ? 1 : 2;
+//            }
             consumed[1] = dy;
             Log.d("TAG", "dy = " + dy);
             bottomView.setTranslationY(bottomView.getTranslationY() - dy);
@@ -102,10 +100,23 @@ public class DragLayout extends LinearLayout implements NestedScrollingParent {
     }
 
 
+    private void setHeight(final LinearLayout layout, float currentHeight, float targetHeight){
+        ValueAnimator va ;
+        va =  ValueAnimator.ofInt((int)currentHeight, (int)targetHeight);
+        va.setDuration(500);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                layout.getLayoutParams().height = (Integer)animation.getAnimatedValue();
+                layout.requestLayout();
+            }
+        });
+        va.start();
+    }
+
     @Override
     public void onStopNestedScroll(View child) {
         nsph.onStopNestedScroll(child);
-        float stopValue = 0;
+        float stopValue;
         //手指松开时判断当前的位置，大于一半向上移到最高点，小于一半向下移到原始位置
         if (bottomView.getTranslationY() > (smallView.getHeight() - topView.getHeight()) / 2) {
             stopValue = 0;
@@ -121,12 +132,6 @@ public class DragLayout extends LinearLayout implements NestedScrollingParent {
         set.play(bottomAnimator).with(smallAnimator).with(bigAnimator);
         set.start();
 
-    }
-
-    private void initView() {
-        nsph = new NestedScrollingParentHelper(this);
-        moveDir = 0;
-        count = 0;
     }
 
 }

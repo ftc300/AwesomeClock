@@ -21,7 +21,7 @@ public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecycl
     private String[] mTitles;
 
     public NormalRecyclerViewAdapter(Context context) {
-        mTitles = new String[]{"sssss1","23234","23234","23234","23234","23234","23234","23234","23234"};
+        mTitles = new String[]{"sssss1","23234","23234","23234"};
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }

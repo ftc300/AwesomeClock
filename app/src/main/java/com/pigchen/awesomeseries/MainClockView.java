@@ -1,5 +1,6 @@
 package com.pigchen.awesomeseries;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SweepGradient;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -17,7 +19,7 @@ import android.view.View;
 import java.util.Calendar;
 
 
-public class MainClockView extends View {
+public class MainClockView extends View implements ValueAnimator.AnimatorUpdateListener {
     /* 画布 */
     private Canvas mCanvas;
     /* 小时文本画笔 */
@@ -63,6 +65,8 @@ public class MainClockView extends View {
     private float mRadius;
     /* 刻度线长度 */
     private float mScaleLength;
+    /*闪动的长度*/
+    private float mShineScaleLength;
 
     /* 时针角度 */
     private float mHourDegree;
@@ -77,12 +81,39 @@ public class MainClockView extends View {
     private float mPaddingTop;
     private float mPaddingRight;
     private float mPaddingBottom;
-
+    private DeviceStatus mStatus;
 
     /* 梯度扫描渐变 */
     private SweepGradient mSweepGradient;
     /* 渐变矩阵，作用在SweepGradient */
     private Matrix mGradientMatrix;
+    private Context context;
+    private Handler handler;
+    private float mFraction;//变化因子
+    private ValueAnimator mAnimator;
+    private  int SHINE_INTERVAL = 2000;
+
+    private Runnable heartBeatRunnable = new Runnable() {
+        @Override
+        public void run() {
+            connect();
+            handler.postDelayed(this, SHINE_INTERVAL);
+        }
+    };
+
+    public void connect() {
+        mAnimator.start();
+    }
+
+    public void onStart() {
+        handler.removeCallbacks(heartBeatRunnable);
+        handler.post(heartBeatRunnable);
+    }
+
+
+    private void onStop() {
+        handler.removeCallbacks(heartBeatRunnable);
+    }
 
     public MainClockView(Context context) {
         this(context, null);
@@ -94,12 +125,13 @@ public class MainClockView extends View {
 
     public MainClockView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MiClockView, defStyleAttr, 0);
         mBackgroundColor = ta.getColor(R.styleable.MiClockView_backgroundColor, getResources().getColor(R.color.primaryColor));
         setBackgroundColor(mBackgroundColor);
         mLightColor = ta.getColor(R.styleable.MiClockView_lightColor, Color.parseColor("#ffffff"));
         mDarkColor = ta.getColor(R.styleable.MiClockView_darkColor, Color.parseColor("#80ffffff"));
-        mTextSize = ta.getDimension(R.styleable.MiClockView_textSize,sp2px(context, 14));
+        mTextSize = ta.getDimension(R.styleable.MiClockView_textSize, sp2px(context, 14));
         ta.recycle();
 
         mHourHandPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -142,6 +174,12 @@ public class MainClockView extends View {
         mSecondHandPath = new Path();
 
         mGradientMatrix = new Matrix();
+        mStatus = DeviceStatus.CONNECTING;
+        mAnimator = ValueAnimator.ofFloat(0.3f, 1f,0.3f).setDuration(SHINE_INTERVAL);
+        mAnimator.addUpdateListener(this);
+        if (null == handler) {
+            handler = new android.os.Handler();
+        }
     }
 
     @Override
@@ -164,12 +202,12 @@ public class MainClockView extends View {
         return result;
     }
 
-    private void setConnectStatus(DeviceStatus status){
-        if(DeviceStatus.CONNECTING==status){
+    private void setConnectStatus(DeviceStatus status) {
+        if (DeviceStatus.CONNECTING == status) {
 
-        }else if(DeviceStatus.CONNECTED==status){
+        } else if (DeviceStatus.CONNECTED == status) {
 
-        }else if(DeviceStatus.TIMEOUT==status){
+        } else if (DeviceStatus.TIMEOUT == status) {
 
         }
     }
@@ -186,9 +224,10 @@ public class MainClockView extends View {
         mPaddingTop = mDefaultPadding + h / 2 - mRadius + getPaddingTop();
         mPaddingRight = mPaddingLeft;
         mPaddingBottom = mPaddingTop;
-        mScaleLength = 0.08f * mRadius;//根据比例确定刻度线长度
+        mScaleLength = 0.075f * mRadius;//根据比例确定刻度线长度
+        mShineScaleLength = 0.082f * mRadius;//闪动的刻度线长度
         mScaleArcPaint.setStrokeWidth(mScaleLength);
-        mScaleLinePaint.setStrokeWidth(0.012f * mRadius);
+        mScaleLinePaint.setStrokeWidth(0.015f * mRadius);
         //梯度扫描渐变，以(w/2,h/2)为中心点，两种起止颜色梯度渐变
         //float数组表示，[a0,a0.75)为起始颜色所占比例，[a0.75,1}为起止颜色渐变所占比例
         mSweepGradient = new SweepGradient(w / 2, h / 2,
@@ -198,13 +237,28 @@ public class MainClockView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         mCanvas = canvas;
-        getTimeDegree();
-        drawInnerCirAndScaleMark();
-        drawScaleLine();
-        drawSecondHand();
-        drawHourHand();
-        drawMinuteHand();
-        invalidate();
+        if (mStatus == DeviceStatus.CONNECTED) {
+            onStop();
+            getTimeDegree();
+            drawInnerCirAndScaleMark();
+            drawScaleLine();
+            drawSecondHand();
+            drawHourHand();
+            drawMinuteHand();
+            invalidate();
+        } else if (mStatus == DeviceStatus.CONNECTING) {
+            mSecondDegree = 0;
+            mMinuteDegree = 60;
+            mHourDegree = 305;
+            drawInnerCirAndScaleMark();
+            drawShineScaleLine();
+            drawHourHand();
+            drawMinuteHand();
+            invalidate();
+        } else if (mStatus == DeviceStatus.TIMEOUT) {
+            onStop();
+
+        }
     }
 
 
@@ -239,10 +293,32 @@ public class MainClockView extends View {
         mScaleArcPaint.setShader(mSweepGradient);
         mCanvas.drawArc(mScaleArcRectF, 0, 360, false, mScaleArcPaint);
         //画背景色刻度线
-        for (int i = 0; i < 200; i++) {
-            mCanvas.drawLine(getWidth() / 2, mPaddingTop + mScaleLength + mTextRect.height() / 2,
+        for (int i = 0; i < 180; i++) {
+            mCanvas.drawLine(getWidth() / 2, mPaddingTop + mScaleLength + mTextRect.height() / 2 ,
                     getWidth() / 2, mPaddingTop + 2 * mScaleLength + mTextRect.height() / 2, mScaleLinePaint);
-            mCanvas.rotate(1.8f, getWidth() / 2, getHeight() / 2);
+            mCanvas.rotate(2f, getWidth() / 2, getHeight() / 2);
+        }
+        mCanvas.restore();
+    }
+
+    /**
+     * 连接中状态闪动效果
+     */
+    private void drawShineScaleLine() {
+        int color = context.getResources().getColor(R.color.white);
+        mCanvas.save();
+        mScaleArcRectF.set(mPaddingLeft + 1.5f * mScaleLength + mTextRect.height() / 2 - 0.01f * mRadius * mFraction,
+                mPaddingTop + 1.5f * mScaleLength + mTextRect.height() / 2 - 0.01f * mRadius * mFraction,
+                getWidth() - mPaddingRight - mTextRect.height() / 2 - 1.5f * mScaleLength + 0.01f * mRadius * mFraction,
+                getHeight() - mPaddingBottom - mTextRect.height() / 2 - 1.5f * mScaleLength + 0.01f * mRadius * mFraction);
+        mScaleArcPaint.setColor(color);
+        mScaleArcPaint.setAlpha((int)(255 * mFraction));//根据因子设置透明度
+        mCanvas.drawArc(mScaleArcRectF, 0, 360, false, mScaleArcPaint);
+        //画背景色刻度线
+        for (int i = 0; i < 180; i++) {
+            mCanvas.drawLine(getWidth() / 2, mPaddingTop + mScaleLength + mTextRect.height() / 2 - 0.015f * mRadius * mFraction,
+                    getWidth() / 2, mPaddingTop + 2 * mScaleLength + mTextRect.height() / 2, mScaleLinePaint);
+            mCanvas.rotate(2f, getWidth() / 2, getHeight() / 2);
         }
         mCanvas.restore();
     }
@@ -254,8 +330,8 @@ public class MainClockView extends View {
         mCanvas.save();
         mCanvas.rotate(mSecondDegree, getWidth() / 2, getHeight() / 2);
         mSecondHandPath.reset();
-        float offset = mPaddingTop + mScaleLength ;
-        mSecondHandPath.moveTo(getWidth() / 2, offset );
+        float offset = mPaddingTop + mScaleLength;
+        mSecondHandPath.moveTo(getWidth() / 2, offset);
         mSecondHandPath.lineTo(getWidth() / 2 - 0.03f * mRadius, offset - 0.06f * mRadius);
         mSecondHandPath.lineTo(getWidth() / 2 + 0.03f * mRadius, offset - 0.06f * mRadius);
         mSecondHandPath.close();
@@ -313,19 +389,23 @@ public class MainClockView extends View {
     }
 
 
-    private void drawInnerCirAndScaleMark(){
-        mCanvas.drawCircle(getWidth() / 2, getHeight() / 2 ,0.68f * mRadius,mInnerCir);
-        for (int i = 0; i < 60; i= i+5) {
-                mCanvas.drawLine(getWidth() / 2, getHeight() / 2 - 0.68f * mRadius ,
-                        getWidth() / 2, getHeight() / 2 - 0.58f * mRadius , mHourHandPaint);
+    private void drawInnerCirAndScaleMark() {
+        mCanvas.drawCircle(getWidth() / 2, getHeight() / 2, 0.68f * mRadius, mInnerCir);
+        for (int i = 0; i < 60; i = i + 5) {
+            mCanvas.drawLine(getWidth() / 2, getHeight() / 2 - 0.68f * mRadius,
+                    getWidth() / 2, getHeight() / 2 - 0.58f * mRadius, mHourHandPaint);
             mCanvas.rotate(30, getWidth() / 2, getHeight() / 2);
         }
     }
 
     //FIXME replace it
-    private  int sp2px(Context context, float spVal) {
+    private int sp2px(Context context, float spVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                 spVal, context.getResources().getDisplayMetrics());
     }
 
+    @Override
+    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+        mFraction = (float) valueAnimator.getAnimatedValue();
+    }
 }
