@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <declare-styleable name="CustomItem">
+        <attr name="labelText" format="reference|string" />
+        <attr name="labelColor" format="reference|color" />
+        <attr name="labelSize" format="dimension" />
+        <attr name="contentText" format="reference|string" />
+        <attr name="contentColor" format="reference|color" />
+        <attr name="contentSize" format="dimension" />
+        <attr name="drawable" format="reference" />
+    </declare-styleable>
+
 </resources>

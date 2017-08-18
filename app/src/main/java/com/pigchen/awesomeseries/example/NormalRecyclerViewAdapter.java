@@ -1,4 +1,4 @@
-package com.pigchen.awesomeseries;
+package com.pigchen.awesomeseries.example;
 
 /**
  * @ 创建者:   CoderChen
@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.pigchen.awesomeseries.R;
 
 
 public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecyclerViewAdapter.NormalTextViewHolder> {

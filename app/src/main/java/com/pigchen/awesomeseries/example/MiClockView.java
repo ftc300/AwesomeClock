@@ -1,4 +1,4 @@
-package com.pigchen.awesomeseries;
+package com.pigchen.awesomeseries.example;
 
 import android.animation.PropertyValuesHolder;
 import android.animation.TimeInterpolator;
@@ -18,6 +18,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.pigchen.awesomeseries.R;
 
 import java.util.Calendar;
 

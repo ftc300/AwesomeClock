@@ -18,7 +18,7 @@
             android:paddingTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <com.pigchen.awesomeseries.MainClockView
+        <com.pigchen.awesomeseries.clock.MainClockView
             android:id="@+id/clockView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -46,7 +46,7 @@
             android:layout_marginBottom="20dp"
             />
     </LinearLayout>
-    <com.pigchen.awesomeseries.BottomContainerLayout
+    <com.pigchen.awesomeseries.example.BottomContainerLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,6 +81,6 @@
             android:textSize="15sp"
             android:padding="10dp"
             />
-    </com.pigchen.awesomeseries.BottomContainerLayout>
+    </com.pigchen.awesomeseries.example.BottomContainerLayout>
 
 </LinearLayout>

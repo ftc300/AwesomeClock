@@ -1,4 +1,4 @@
-package com.pigchen.awesomeseries;
+package com.pigchen.awesomeseries.example;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -8,6 +8,9 @@ import android.util.DisplayMetrics;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.pigchen.awesomeseries.R;
+import com.pigchen.awesomeseries.clock.MainClockView;
 
 /**
  * Created by chendong on 2017/8/9.

@@ -1,4 +1,4 @@
-package com.pigchen.awesomeseries;
+package com.pigchen.awesomeseries.example;
 
 /**
  * @ 创建者:   CoderChen

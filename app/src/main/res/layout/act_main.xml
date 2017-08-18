@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.pigchen.awesomeseries.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.pigchen.awesomeseries.example.DragLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:inshow="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,14 +11,14 @@
         <TextView
             android:id="@+id/clockDigit"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="20dp"
             android:text="12 : 00"
             android:textColor="@android:color/white"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorAccent"
             android:gravity="center"
             android:textSize="25sp"/>
-        <com.pigchen.awesomeseries.MainClockView
+        <com.pigchen.awesomeseries.clock.MainClockView
             android:id="@+id/clockView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,4 +42,4 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
 
-</com.pigchen.awesomeseries.DragLayout>
+</com.pigchen.awesomeseries.example.DragLayout>

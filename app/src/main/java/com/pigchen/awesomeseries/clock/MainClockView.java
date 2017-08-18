@@ -1,4 +1,4 @@
-package com.pigchen.awesomeseries;
+package com.pigchen.awesomeseries.clock;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+
+import com.pigchen.awesomeseries.R;
 
 import java.util.Calendar;
 
@@ -40,6 +42,10 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
     private Paint mScaleLinePaint;
     /* 时针画笔 */
     private Paint mHourHandPaint;
+    /* 内部时钟刻度画笔 */
+    private Paint mInnerScaleLinePaint;
+    /*最里面的实心白圆*/
+    private Paint mInnerWhiteCir;
     /* 分针画笔 */
     private Paint mMinuteHandPaint;
     /* 秒针画笔 */
@@ -111,7 +117,7 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
     }
 
 
-    private void onStop() {
+    public void onStop() {
         handler.removeCallbacks(heartBeatRunnable);
     }
 
@@ -137,6 +143,14 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         mHourHandPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mHourHandPaint.setStyle(Paint.Style.FILL);
         mHourHandPaint.setColor(Color.parseColor("#000000"));
+
+        mInnerScaleLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mInnerScaleLinePaint.setStyle(Paint.Style.FILL);
+        mInnerScaleLinePaint.setColor(Color.parseColor("#000000"));
+
+        mInnerWhiteCir = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mInnerWhiteCir.setStyle(Paint.Style.FILL);
+        mInnerWhiteCir.setColor(Color.parseColor("#ffffff"));
 
         mMinuteHandPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mMinuteHandPaint.setColor(Color.parseColor("#000000"));
@@ -202,14 +216,8 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         return result;
     }
 
-    private void setConnectStatus(DeviceStatus status) {
-        if (DeviceStatus.CONNECTING == status) {
-
-        } else if (DeviceStatus.CONNECTED == status) {
-
-        } else if (DeviceStatus.TIMEOUT == status) {
-
-        }
+    public void setConnectStatus(DeviceStatus status) {
+        mStatus =  status;
     }
 
 
@@ -219,7 +227,7 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         //宽和高分别去掉padding值，取min的一半即表盘的半径
         mRadius = Math.min(w - getPaddingLeft() - getPaddingRight(),
                 h - getPaddingTop() - getPaddingBottom()) / 2;
-        mDefaultPadding = 0.12f * mRadius;//根据比例确定默认padding大小
+        mDefaultPadding = 0 ;//根据比例确定默认padding大小
         mPaddingLeft = mDefaultPadding + w / 2 - mRadius + getPaddingLeft();
         mPaddingTop = mDefaultPadding + h / 2 - mRadius + getPaddingTop();
         mPaddingRight = mPaddingLeft;
@@ -238,27 +246,24 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
     protected void onDraw(Canvas canvas) {
         mCanvas = canvas;
         if (mStatus == DeviceStatus.CONNECTED) {
-            onStop();
             getTimeDegree();
             drawInnerCirAndScaleMark();
             drawScaleLine();
             drawSecondHand();
-            drawHourHand();
-            drawMinuteHand();
+            drawHourHand(mStatus);
+            drawMinuteHand(mStatus);
             invalidate();
-        } else if (mStatus == DeviceStatus.CONNECTING) {
+        } else if (mStatus == DeviceStatus.CONNECTING || mStatus == DeviceStatus.TIMEOUT) {
             mSecondDegree = 0;
             mMinuteDegree = 60;
             mHourDegree = 305;
-            drawInnerCirAndScaleMark();
             drawShineScaleLine();
-            drawHourHand();
-            drawMinuteHand();
-            invalidate();
-        } else if (mStatus == DeviceStatus.TIMEOUT) {
-            onStop();
-
+            drawInnerCirAndScaleMark();
+            drawHourHand(mStatus);
+            drawMinuteHand(mStatus);
         }
+
+        invalidate();
     }
 
 
@@ -340,25 +345,25 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         mCanvas.restore();
     }
 
+
     /**
      * 画时针，根据不断变化的时针角度旋转画布
      * 针头为圆弧状，使用二阶贝塞尔曲线
      */
-    private void drawHourHand() {
+    private void drawHourHand(DeviceStatus status) {
         mCanvas.save();
         mCanvas.rotate(mHourDegree, getWidth() / 2, getHeight() / 2);
         mHourHandPath.reset();
-        float offset = mPaddingTop + mTextRect.height() / 2;
-        mHourHandPath.moveTo(getWidth() / 2 - 0.018f * mRadius, getHeight() / 2 - 0.03f * mRadius);
-        mHourHandPath.lineTo(getWidth() / 2 - 0.009f * mRadius, offset + 0.48f * mRadius);
-        mHourHandPath.quadTo(getWidth() / 2, offset + 0.46f * mRadius, getWidth() / 2 + 0.009f * mRadius, offset + 0.48f * mRadius);
-        mHourHandPath.lineTo(getWidth() / 2 + 0.018f * mRadius, getHeight() / 2 - 0.03f * mRadius);
+        float offset = mPaddingTop ;
+        mHourHandPath.moveTo(getWidth() / 2 - 0.01f * mRadius, getHeight() / 2 - 0.01f * mRadius);
+        mHourHandPath.lineTo(getWidth() / 2 - 0.007f * mRadius, offset + 0.5f * mRadius);
+        mHourHandPath.quadTo(getWidth() / 2, offset + 0.48f * mRadius, getWidth() / 2 + 0.007f * mRadius, offset + 0.5f * mRadius);
+        mHourHandPath.lineTo(getWidth() / 2 + 0.01f * mRadius, getHeight() / 2 - 0.02f * mRadius);
         mHourHandPath.close();
         mHourHandPaint.setStyle(Paint.Style.FILL);
+        mHourHandPaint.setColor(context.getResources().getColor(status == DeviceStatus.CONNECTED?R.color.hourHand_normal:R.color.hourHand_unable));
         mCanvas.drawPath(mHourHandPath, mHourHandPaint);
-        mCircleRectF.set(getWidth() / 2 - 0.03f * mRadius, getHeight() / 2 - 0.03f * mRadius, getWidth() / 2 + 0.03f * mRadius, getHeight() / 2 + 0.03f * mRadius);
-        mHourHandPaint.setStyle(Paint.Style.STROKE);
-        mHourHandPaint.setStrokeWidth(0.01f * mRadius);
+        mCircleRectF.set(getWidth() / 2 - 0.04f * mRadius, getHeight() / 2 - 0.04f * mRadius, getWidth() / 2 + 0.04f * mRadius, getHeight() / 2 + 0.04f * mRadius);
         mCanvas.drawArc(mCircleRectF, 0, 360, false, mHourHandPaint);
         mCanvas.restore();
     }
@@ -366,39 +371,35 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
     /**
      * 画分针，根据不断变化的分针角度旋转画布
      */
-    private void drawMinuteHand() {
+    private void drawMinuteHand(DeviceStatus status) {
         mCanvas.save();
         mCanvas.rotate(mMinuteDegree, getWidth() / 2, getHeight() / 2);
         mMinuteHandPath.reset();
-        float offset = mPaddingTop + mTextRect.height() / 2;
-        mMinuteHandPath.moveTo(getWidth() / 2 - 0.01f * mRadius, getHeight() / 2 - 0.03f * mRadius);
-        mMinuteHandPath.lineTo(getWidth() / 2 - 0.008f * mRadius, offset + 0.365f * mRadius);
-        mMinuteHandPath.quadTo(getWidth() / 2, offset + 0.345f * mRadius,
-                getWidth() / 2 + 0.008f * mRadius, offset + 0.365f * mRadius);
-        mMinuteHandPath.lineTo(getWidth() / 2 + 0.01f * mRadius, getHeight() / 2 - 0.03f * mRadius);
+        float offset = mPaddingTop ;
+        mMinuteHandPath.moveTo(getWidth() / 2 - 0.01f * mRadius, getHeight() / 2 - 0.01f * mRadius);
+        mMinuteHandPath.lineTo(getWidth() / 2 - 0.007f * mRadius, offset + 0.4f * mRadius);
+        mMinuteHandPath.quadTo(getWidth() / 2, offset + 0.38f * mRadius, getWidth() / 2 + 0.007f * mRadius, offset + 0.4f * mRadius);
+        mMinuteHandPath.lineTo(getWidth() / 2 + 0.01f * mRadius, getHeight() / 2 - 0.01f * mRadius);
         mMinuteHandPath.close();
         mMinuteHandPaint.setStyle(Paint.Style.FILL);
+        mMinuteHandPaint.setColor(context.getResources().getColor(status == DeviceStatus.CONNECTED?R.color.minuteHand_normal:R.color.minuteHand_unable));
         mCanvas.drawPath(mMinuteHandPath, mMinuteHandPaint);
-
-        mCircleRectF.set(getWidth() / 2 - 0.03f * mRadius, getHeight() / 2 - 0.03f * mRadius,
-                getWidth() / 2 + 0.03f * mRadius, getHeight() / 2 + 0.03f * mRadius);
-        mMinuteHandPaint.setStyle(Paint.Style.STROKE);
-        mMinuteHandPaint.setStrokeWidth(0.02f * mRadius);
+        mCircleRectF.set(getWidth() / 2 - 0.03f * mRadius, getHeight() / 2 - 0.03f * mRadius, getWidth() / 2 + 0.03f * mRadius, getHeight() / 2 + 0.03f * mRadius);
         mCanvas.drawArc(mCircleRectF, 0, 360, false, mMinuteHandPaint);
+        mCircleRectF.set(getWidth() / 2 - 0.018f * mRadius, getHeight() / 2 - 0.018f * mRadius, getWidth() / 2 + 0.018f * mRadius, getHeight() / 2 + 0.018f * mRadius);
+        mCanvas.drawArc(mCircleRectF, 0, 360, false, mInnerWhiteCir);
         mCanvas.restore();
     }
 
-
     private void drawInnerCirAndScaleMark() {
-        mCanvas.drawCircle(getWidth() / 2, getHeight() / 2, 0.68f * mRadius, mInnerCir);
+        mCanvas.drawCircle(getWidth() / 2, getHeight() / 2, 0.8f * mRadius, mInnerCir);
         for (int i = 0; i < 60; i = i + 5) {
-            mCanvas.drawLine(getWidth() / 2, getHeight() / 2 - 0.68f * mRadius,
-                    getWidth() / 2, getHeight() / 2 - 0.58f * mRadius, mHourHandPaint);
+            mCanvas.drawLine(getWidth() / 2, getHeight() / 2 - 0.8f * mRadius,
+                    getWidth() / 2, getHeight() / 2 - 0.68f * mRadius, mInnerScaleLinePaint);
             mCanvas.rotate(30, getWidth() / 2, getHeight() / 2);
         }
     }
 
-    //FIXME replace it
     private int sp2px(Context context, float spVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                 spVal, context.getResources().getDisplayMetrics());

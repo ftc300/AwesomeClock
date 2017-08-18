@@ -1,4 +1,4 @@
-package com.pigchen.awesomeseries;
+package com.pigchen.awesomeseries.example;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

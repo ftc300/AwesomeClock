@@ -1,4 +1,4 @@
-package com.pigchen.awesomeseries;
+package com.pigchen.awesomeseries.example;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,6 +13,8 @@ import android.hardware.SensorManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.pigchen.awesomeseries.R;
 
 import java.util.Calendar;
 import java.util.TimeZone;
