@@ -7,6 +7,7 @@ package com.pigchen.awesomeseries.clock;
  */
 public enum DeviceStatus {
     CONNECTING,//连接中
+    CONNECTINGED,//连接中过度到连接成功
     CONNECTED,//连接成功
     TIMEOUT//连接超时
 }

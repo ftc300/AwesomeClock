@@ -63,6 +63,8 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
     private int mLightColor;
     /* 暗色，圆弧、刻度线、时针、渐变起始色 */
     private int mDarkColor;
+
+    private int mCircleColor;
     /* 背景色 */
     private int mBackgroundColor;
     /* 小时文本字体大小 */
@@ -97,7 +99,10 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
     private Handler handler;
     private float mFraction;//变化因子
     private ValueAnimator mAnimator;
+    private ValueAnimator mGradientAnimatorMinute;
+    private ValueAnimator mGradientAnimatorHour;
     private  int SHINE_INTERVAL = 2000;
+
 
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
@@ -136,7 +141,8 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         mBackgroundColor = ta.getColor(R.styleable.MiClockView_backgroundColor, getResources().getColor(R.color.primaryColor));
         setBackgroundColor(mBackgroundColor);
         mLightColor = ta.getColor(R.styleable.MiClockView_lightColor, Color.parseColor("#ffffff"));
-        mDarkColor = ta.getColor(R.styleable.MiClockView_darkColor, Color.parseColor("#80ffffff"));
+        mDarkColor = ta.getColor(R.styleable.MiClockView_darkColor, Color.parseColor("#00ffffff"));
+        mCircleColor = ta.getColor(R.styleable.MiClockView_darkColor, Color.parseColor("#80ffffff"));
         mTextSize = ta.getDimension(R.styleable.MiClockView_textSize, sp2px(context, 14));
         ta.recycle();
 
@@ -172,13 +178,13 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setStyle(Paint.Style.FILL);
-        mTextPaint.setColor(mDarkColor);
+        mTextPaint.setColor(mCircleColor);
         mTextPaint.setTextSize(mTextSize);
 
         mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint.setStyle(Paint.Style.STROKE);
         mCirclePaint.setStrokeWidth(mCircleStrokeWidth);
-        mCirclePaint.setColor(mDarkColor);
+        mCirclePaint.setColor(mCircleColor);
 
         mTextRect = new Rect();
         mCircleRectF = new RectF();
@@ -191,6 +197,7 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         mStatus = DeviceStatus.CONNECTING;
         mAnimator = ValueAnimator.ofFloat(0.3f, 1f,0.3f).setDuration(SHINE_INTERVAL);
         mAnimator.addUpdateListener(this);
+
         if (null == handler) {
             handler = new android.os.Handler();
         }
@@ -239,7 +246,7 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         //梯度扫描渐变，以(w/2,h/2)为中心点，两种起止颜色梯度渐变
         //float数组表示，[a0,a0.75)为起始颜色所占比例，[a0.75,1}为起止颜色渐变所占比例
         mSweepGradient = new SweepGradient(w / 2, h / 2,
-                new int[]{mDarkColor, mLightColor}, new float[]{0.75f, 1});
+                new int[]{mDarkColor, mLightColor}, new float[]{0.25f, 1});
     }
 
     @Override
@@ -252,7 +259,6 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
             drawSecondHand();
             drawHourHand(mStatus);
             drawMinuteHand(mStatus);
-            invalidate();
         } else if (mStatus == DeviceStatus.CONNECTING || mStatus == DeviceStatus.TIMEOUT) {
             mSecondDegree = 0;
             mMinuteDegree = 60;
@@ -261,8 +267,13 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
             drawInnerCirAndScaleMark();
             drawHourHand(mStatus);
             drawMinuteHand(mStatus);
+        } else if (mStatus==DeviceStatus.CONNECTINGED){
+            drawInnerCirAndScaleMark();
+            drawScaleLine();
+            drawSecondHand();
+            drawHourHand(mStatus);
+            drawMinuteHand(mStatus);
         }
-
         invalidate();
     }
 
@@ -280,6 +291,21 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         mSecondDegree = second / 60 * 360;
         mMinuteDegree = minute / 60 * 360;
         mHourDegree = hour / 12 * 360;
+    }
+
+    public void setTimeDegree(float hour ,float minute ,float second ) {
+        mSecondDegree = second / 60 * 360;
+        mMinuteDegree = minute / 60 * 360;
+        mHourDegree = hour / 12 * 360;
+    }
+    public void setTimeDegreeH(float hour ) {
+        mHourDegree = hour / 12 * 360;
+    }
+    public void setTimeDegreeM(float minute) {
+        mMinuteDegree = minute / 60 * 360;
+    }
+    public void setTimeDegreeS(float second ) {
+        mSecondDegree = second / 60 * 360;
     }
 
 
