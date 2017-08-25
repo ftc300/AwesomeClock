@@ -2,12 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.pigchen.awesomeseries.rotate.CircleRotateLayout
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <com.pigchen.awesomeseries.rotate.RotateImage
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="40dp"
+        android:visibility="gone"
         >
-    </com.pigchen.awesomeseries.rotate.CircleRotateLayout>
+    </com.pigchen.awesomeseries.rotate.RotateImage>
+    <com.pigchen.awesomeseries.rotate.RotateView
+        android:id="@+id/rotateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
