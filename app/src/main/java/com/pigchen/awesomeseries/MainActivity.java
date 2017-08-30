@@ -7,19 +7,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pigchen.awesomeseries.clock.DeviceStatus;
 import com.pigchen.awesomeseries.clock.MainClockView;
-import com.pigchen.awesomeseries.example.NormalRecyclerViewAdapter;
+import com.pigchen.awesomeseries.example.ListAdapter;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private android.widget.TextView clockDigit;
-    private RecyclerView recyclerview;
+    private ListView recyclerview;
     private MainClockView clockView;
     private CustomItem ci;
     private android.widget.LinearLayout activitymain;
@@ -58,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
 //                clockView.onGradientStart();
 //            }
 //        },3000);
-        clockView.onStart();
-        clockView.setConnectStatus(DeviceStatus.CONNECTING);
+           clockView.onStart();
+//        clockView.setConnectStatus(DeviceStatus.CONNECTING);
                 clockView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                clockView.setConnectStatus(DeviceStatus.CONNECTINGED);
+                clockView.onStop();
                 Calendar calendar = Calendar.getInstance();
                 float milliSecond = calendar.get(Calendar.MILLISECOND);
                 final float second = calendar.get(Calendar.SECOND) + milliSecond / 1000;
@@ -84,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                                         );
                     }
                 });
-                clockAni.start();
                 clockAni.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
@@ -106,12 +104,15 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+                clockView.setConnectStatus(DeviceStatus.CONNECTINGED);
+                clockAni.start();
             }
         },1000);
-        this.recyclerview = (RecyclerView) findViewById(R.id.recycler_view);
+        this.recyclerview = (ListView) findViewById(R.id.recycler_view);
         this.clockDigit = (TextView) findViewById(R.id.clockDigit);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));//这里用线性显示 类似于listview
-        recyclerview.setAdapter(new NormalRecyclerViewAdapter(this));
+        recyclerview.setAdapter(new ListAdapter(this));
+//        recyclerview.setLayoutManager(new LinearLayoutManager(this));//这里用线性显示 类似于listview
+//        recyclerview.setAdapter(new NormalRecyclerViewAdapter(this));
 //        setContentView(R.layout.activity_main);
 //        this.activitymain = (LinearLayout) findViewById(R.id.activity_main);
 //        this.ci = (CustomItem) findViewById(R.id.ci);

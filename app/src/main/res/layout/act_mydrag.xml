@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.pigchen.awesomeseries.drag.MyDragViewLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="?attr/colorAccent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menu"
+            android:layout_centerInParent="true"
+            android:textSize="22sp"
+            android:textColor="#fff"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Content"
+            android:textSize="22sp"
+            android:textColor="#fff"/>
+    </RelativeLayout>
+</com.pigchen.awesomeseries.drag.MyDragViewLayout>

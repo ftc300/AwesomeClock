@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/primaryColor_unable"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请稍后..."
+            android:textColor="@color/white"
+            android:textSize="33sp" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <com.pigchen.awesomeseries.rotate.ShineTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="..."
+        android:textSize="16sp" />
+
     <com.pigchen.awesomeseries.rotate.RotateImage
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="40dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
+
     </com.pigchen.awesomeseries.rotate.RotateImage>
+
     <com.pigchen.awesomeseries.rotate.RotateView
         android:id="@+id/rotateView"
         android:layout_width="match_parent"

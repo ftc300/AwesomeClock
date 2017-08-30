@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.pigchen.awesomeseries.bazier.BazierAct;
+import com.pigchen.awesomeseries.drag.DragAct;
 import com.pigchen.awesomeseries.rotate.RotateAct;
 
 /**
@@ -29,16 +31,25 @@ public class StartAct extends AppCompatActivity {
         recyclerview.setAdapter(new StartAdapter(context).setListener(new StartAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int pos) {
+                Intent i = null;
                 switch (pos){
                     case 0:
+                         i = new Intent(context, MainActivity.class);
                         break;
                     case 1:
-                        Intent i = new Intent(context, RotateAct.class);
-                        startActivity(i);
+                         i = new Intent(context, RotateAct.class);
                         break;
                     case 2:
+                        i = new Intent(context, RotateAct.class);
+                        break;
+                    case 3:
+                         i = new Intent(context, DragAct.class);
+                        break;
+                    case 4:
+                         i = new Intent(context, BazierAct.class);
                         break;
                 }
+                startActivity(i);
             }
         }));
     }

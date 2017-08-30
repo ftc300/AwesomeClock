@@ -7,12 +7,12 @@ import android.content.Context;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 /**
  * @ 创建者:   CoderChen
@@ -80,7 +80,7 @@ public class DragLayout extends LinearLayout implements NestedScrollingParent {
         //满足两种情况是可以滑动，第一是向上滑并且滑动的高度小于可滑动的最大值
         //第二种是向下滑动，并且滑动的高度大于0
         if ((dy > 0 && (bottomView.getTranslationY() > smallView.getHeight() - topView.getHeight())
-                && ((RecyclerView) bottomView).getChildCount() > 0) //如果RecyclerView为空，则不能向上滑动
+                && ((ListView) bottomView).getChildCount() > 0) //如果RecyclerView为空，则不能向上滑动
                 || (dy < 0 && bottomView.getTranslationY() < 0
                 //判断RecyclerView内部是否可以向下滑动，如果可以，则Recyclerview无法整体向下滑动
                 && !ViewCompat.canScrollVertically(target, -1))) {

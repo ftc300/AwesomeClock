@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.pigchen.awesomeseries.R;
 
 /**
@@ -19,7 +20,7 @@ import com.pigchen.awesomeseries.R;
 public class RotateAct extends AppCompatActivity {
 //    CircleMenuLayout menu ;
 
-   RotatView v;
+    RotateView v;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +29,15 @@ public class RotateAct extends AppCompatActivity {
 //        menu.setMenuItemIconsAndTexts(new int[]{R.drawable.common_list_item_anchor_normal,R.drawable.common_list_item_anchor_normal,R.drawable.common_list_item_anchor_normal},
 //                new String[]{"1","2","3"});
         setImageText();
-        v = (RotatView) findViewById(R.id.rotateView);
+        v = (RotateView) findViewById(R.id.rotateView);
         v.setRotatDrawableResource(R.drawable.adjust_step_dial);
+
+        ShimmerFrameLayout container =
+                (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
+        container.setDuration(2000);
+        container.setIntensity(.5f);
+        container.startShimmerAnimation();
+
     }
 
     void setImageText(){

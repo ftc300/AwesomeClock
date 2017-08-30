@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".rotate.RotateAct"/>
+        <activity android:name=".drag.DragAct"/>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".bazier.BazierAct"/>
         <!--<activity-->
             <!--android:name=".MainActivity"-->
             <!--android:screenOrientation="portrait">-->
