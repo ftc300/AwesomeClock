@@ -10,18 +10,21 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.pigchen.awesomeseries.bazier.BazierView;
-
 /**
  * @ 创建者:   CoderChen
  * @ 时间:     2017/8/28
  * @ 描述:
+ * @see android.view.View
+ * @version 1
+ * @author chendong
+ * @since 2017
  */
 public class MainDragLayout extends LinearLayout {
 
     private String TAG = "TAG";
-    private FrameLayout frameTop, frameBottom;
-    private BazierView bazierView;
+    private FrameLayout frameTop, frameBottom ;
+    private View topChild0;
+//    private BazierView bazierView;
     public ViewDragHelper mViewDragHelper;
     private int bottomDeltaY;//底部超出屏幕的部分
     private int topHeight;
@@ -56,8 +59,9 @@ public class MainDragLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         frameTop = (FrameLayout) getChildAt(0);
-        bazierView = (BazierView) getChildAt(1);
-        frameBottom = (FrameLayout) getChildAt(2);
+        topChild0 =  frameTop.getChildAt(0);
+//        bazierView = (BazierView) getChildAt(1);
+        frameBottom = (FrameLayout) getChildAt(1);
     }
 
     private class ViewDragHelperCallBack extends ViewDragHelper.Callback {
@@ -99,6 +103,11 @@ public class MainDragLayout extends LinearLayout {
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             deltaY = dy;
 //            setTopHeight();
+            float scalingFactor = (bottomDeltaY - Math.abs(dy))/bottomDeltaY ;
+//            topChild0.setPivotX(0);
+//            topChild0.setPivotY(0);
+            topChild0.setScaleY(scalingFactor);
+            topChild0.setScaleX(scalingFactor);
             frameTop.offsetTopAndBottom(dy);
             d("deltaY:"+deltaY);
         }

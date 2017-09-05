@@ -40,7 +40,7 @@ public class StartAct extends AppCompatActivity {
                          i = new Intent(context, RotateAct.class);
                         break;
                     case 2:
-                        i = new Intent(context, RotateAct.class);
+                         i = new Intent(context, RotateAct.class);
                         break;
                     case 3:
                          i = new Intent(context, DragAct.class);

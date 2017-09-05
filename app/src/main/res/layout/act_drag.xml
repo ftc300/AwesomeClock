@@ -8,11 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
             <com.pigchen.awesomeseries.clock.MainClockView
                 android:id="@+id/clockView"
                 android:layout_width="match_parent"
@@ -27,16 +22,9 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:textColor="@color/white"
+                android:layout_gravity="bottom"
                 />
-
-
-        </LinearLayout>
-
     </FrameLayout>
-    <com.pigchen.awesomeseries.bazier.
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="500dp"

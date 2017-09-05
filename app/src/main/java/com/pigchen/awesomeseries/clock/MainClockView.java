@@ -121,7 +121,6 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
         handler.post(heartBeatRunnable);
     }
 
-
     public void onStop() {
         handler.removeCallbacks(heartBeatRunnable);
     }
