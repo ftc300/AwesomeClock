@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.pigchen.awesomeseries.drag.MainDragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.pigchen.awesomeseries.MainDragLayout2 xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,42 +8,125 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-            <com.pigchen.awesomeseries.clock.MainClockView
-                android:id="@+id/clockView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv"
-                android:text="北京"
-                android:background="@color/primaryColor"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:textColor="@color/white"
-                android:layout_gravity="bottom"
-                />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:background="@color/white">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <com.pigchen.awesomeseries.clock.MainClockView
+                android:id="@+id/clockView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/primaryColor"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="北京"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="步数"
                 android:gravity="center"
-                android:paddingBottom="10dp"
-                android:textColor="@color/hourHand_unable"
                 android:padding="20dp"
-                />
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingBottom="10dp"
+                android:text="步数"
+                android:textColor="@color/hourHand_unable" />
         </LinearLayout>
 
     </FrameLayout>
 
-</com.pigchen.awesomeseries.drag.MainDragLayout>
+</com.pigchen.awesomeseries.MainDragLayout2>

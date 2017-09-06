@@ -5,6 +5,9 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pigchen.awesomeseries.R;
 import com.pigchen.awesomeseries.clock.DeviceStatus;
@@ -20,11 +23,43 @@ import java.util.Calendar;
 
 public class DragAct extends Activity {
     private com.pigchen.awesomeseries.clock.MainClockView clockView;
+    private android.widget.TextView tv;
+    private android.widget.TextView tv1;
+    private android.widget.TextView tv2;
+    private android.widget.TextView tv3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_drag);
+        this.tv3 = (TextView) findViewById(R.id.tv3);
+        this.tv2 = (TextView) findViewById(R.id.tv2);
+        this.tv1 = (TextView) findViewById(R.id.tv1);
+        this.tv = (TextView) findViewById(R.id.tv);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DragAct.this, "sss", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DragAct.this, "sss", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DragAct.this, "sss", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DragAct.this, "sss", Toast.LENGTH_SHORT).show();
+            }
+        });
         this.clockView = (MainClockView) findViewById(R.id.clockView);
         clockView.onStart();
         clockView.setConnectStatus(DeviceStatus.CONNECTING);
@@ -77,6 +112,8 @@ public class DragAct extends Activity {
 
             }
         },1000);
+
+
 
     }
 }

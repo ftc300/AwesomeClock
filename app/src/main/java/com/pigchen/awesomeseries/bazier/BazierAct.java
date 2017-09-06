@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.pigchen.awesomeseries.R;
-import com.pigchen.awesomeseries.currenttime.CurrentTv;
+import com.pigchen.awesomeseries.currenttime.CurrentTimeTv;
 
 /**
  * @ 创建者:   CoderChen
@@ -15,13 +15,13 @@ import com.pigchen.awesomeseries.currenttime.CurrentTv;
 
 public class BazierAct extends Activity {
 
-    private com.pigchen.awesomeseries.currenttime.CurrentTv currentTv;
+    private com.pigchen.awesomeseries.currenttime.CurrentTimeTv currentTimeTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_bazier);
-        this.currentTv = (CurrentTv) findViewById(R.id.currentTv);
-        currentTv.onStart();
+        this.currentTimeTv = (CurrentTimeTv) findViewById(R.id.currentTv);
+        currentTimeTv.onStart();
     }
 }
