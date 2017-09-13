@@ -111,7 +111,7 @@ public class DragAct extends Activity {
                 clockAni.start();
 
             }
-        },1000);
+        },500);
 
 
 

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".StartAct"
+            android:name=".drag.DragAct"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".rotate.RotateAct"/>
-        <activity android:name=".drag.DragAct"/>
+        <!--<activity android:name=".drag.DragAct"/>-->
         <activity android:name=".MainActivity"/>
         <activity android:name=".bazier.BazierAct"/>
+        <activity android:name=".page3.PageCurlActivity"/>
+        <activity android:name=".cir.OilAct"/>
         <!--<activity-->
             <!--android:name=".MainActivity"-->
             <!--android:screenOrientation="portrait">-->

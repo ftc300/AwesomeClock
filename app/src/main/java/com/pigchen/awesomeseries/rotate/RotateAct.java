@@ -7,7 +7,9 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.pigchen.awesomeseries.R;
@@ -21,10 +23,19 @@ public class RotateAct extends AppCompatActivity {
 //    CircleMenuLayout menu ;
 
     RotateView v;
+    private TextView textView2;
+    private ShimmerFrameLayout shimmerviewcontainer;
+    private RotateImage menu;
+    private RotateView rotateView;
+    private boolean b;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_rotate2);
+        this.rotateView = (RotateView) findViewById(R.id.rotateView);
+        this.menu = (RotateImage) findViewById(R.id.menu);
+        this.shimmerviewcontainer = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
+        this.textView2 = (TextView) findViewById(R.id.textView2);
 //        menu = (CircleMenuLayout) findViewById(R.id.menu);
 //        menu.setMenuItemIconsAndTexts(new int[]{R.drawable.common_list_item_anchor_normal,R.drawable.common_list_item_anchor_normal,R.drawable.common_list_item_anchor_normal},
 //                new String[]{"1","2","3"});
@@ -37,6 +48,13 @@ public class RotateAct extends AppCompatActivity {
         container.setDuration(2000);
         container.setIntensity(.5f);
         container.startShimmerAnimation();
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(RotateAct.this, "ss", Toast.LENGTH_SHORT).show();
+                textView2.setEnabled(b = !b);
+            }
+        });
 
     }
 

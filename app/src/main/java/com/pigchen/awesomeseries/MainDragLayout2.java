@@ -22,10 +22,10 @@ import android.widget.LinearLayout;
  */
 public class MainDragLayout2 extends LinearLayout {
 
+    public ViewDragHelper mViewDragHelper;
     private FrameLayout frameTop, frameBottom;
     private LinearLayout topChild0;
     private View clock;
-    public ViewDragHelper mViewDragHelper;
     private int bottomDeltaY;//底部超出屏幕的部分
     private int topHeight;
     private int bottomHeight;
@@ -72,48 +72,6 @@ public class MainDragLayout2 extends LinearLayout {
 //        clock = topChild0.getChildAt(0);
         frameBottom = (FrameLayout) getChildAt(1);
     }
-
-    private class ViewDragHelperCallBack extends ViewDragHelper.Callback {
-
-        @Override
-        public boolean tryCaptureView(View child, int pointerId) {
-            return child == frameBottom;
-        }
-
-
-        @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
-//            return Math.max(Math.min(top, topHeight),topHeight - bottomDeltaY);
-            return Math.max(Math.min(top, topHeight), topHeight - bottomDeltaY);
-        }
-
-        @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
-            int finalTop;
-            if (yvel <= 0) {//上滑
-                finalTop = topHeight - bottomDeltaY;
-                if (status == 1) {
-//                    startAnim(true);
-                    status = 0;
-                }
-            } else {
-                finalTop = topHeight;
-                if (status == 0) {
-//                    startAnim(false);
-                    status = 1;
-                }
-            }
-            mViewDragHelper.settleCapturedViewAt(releasedChild.getLeft(), finalTop);
-            invalidate();
-        }
-
-        @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
-            deltaY = dy;
-            frameTop.offsetTopAndBottom(dy);
-        }
-    }
-
 
     @Override
     public void computeScroll() {
@@ -166,6 +124,47 @@ public class MainDragLayout2 extends LinearLayout {
     public boolean onTouchEvent(MotionEvent event) {
         mViewDragHelper.processTouchEvent(event);
         return true;
+    }
+
+    private class ViewDragHelperCallBack extends ViewDragHelper.Callback {
+
+        @Override
+        public boolean tryCaptureView(View child, int pointerId) {
+            return child == frameBottom;
+        }
+
+
+        @Override
+        public int clampViewPositionVertical(View child, int top, int dy) {
+//            return Math.max(Math.min(top, topHeight),topHeight - bottomDeltaY);
+            return Math.max(Math.min(top, topHeight), topHeight - bottomDeltaY);
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            int finalTop;
+            if (yvel <= 0) {//上滑
+                finalTop = topHeight - bottomDeltaY;
+                if (status == 1) {
+//                    startAnim(true);
+                    status = 0;
+                }
+            } else {
+                finalTop = topHeight;
+                if (status == 0) {
+//                    startAnim(false);
+                    status = 1;
+                }
+            }
+            mViewDragHelper.settleCapturedViewAt(releasedChild.getLeft(), finalTop);
+            invalidate();
+        }
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            deltaY = dy;
+            frameTop.offsetTopAndBottom(dy);
+        }
     }
 
 

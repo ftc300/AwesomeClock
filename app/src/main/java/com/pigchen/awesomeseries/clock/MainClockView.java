@@ -99,8 +99,6 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
     private Handler handler;
     private float mFraction;//变化因子
     private ValueAnimator mAnimator;
-    private ValueAnimator mGradientAnimatorMinute;
-    private ValueAnimator mGradientAnimatorHour;
     private  int SHINE_INTERVAL = 2000;
 
 
@@ -224,6 +222,7 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
 
     public void setConnectStatus(DeviceStatus status) {
         mStatus =  status;
+        mScaleArcPaint.setAlpha((int)(255 ));
     }
 
 
@@ -326,7 +325,6 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
      */
     private void drawShineScaleLine() {
         int color = context.getResources().getColor(R.color.white);
-        mCanvas.save();
         mScaleArcRectF.set(mPaddingLeft + 1.5f * mScaleLength + mTextRect.height() / 2 - 0.01f * mRadius * mFraction,
                 mPaddingTop + 1.5f * mScaleLength + mTextRect.height() / 2 - 0.01f * mRadius * mFraction,
                 getWidth() - mPaddingRight - mTextRect.height() / 2 - 1.5f * mScaleLength + 0.01f * mRadius * mFraction,
@@ -340,7 +338,6 @@ public class MainClockView extends View implements ValueAnimator.AnimatorUpdateL
                     getWidth() / 2, mPaddingTop + 2 * mScaleLength + mTextRect.height() / 2, mScaleLinePaint);
             mCanvas.rotate(2f, getWidth() / 2, getHeight() / 2);
         }
-        mCanvas.restore();
     }
 
     /**

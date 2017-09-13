@@ -25,18 +25,19 @@ public class MainActivity extends AppCompatActivity {
     private CircleProgressView cir;
 
     private int per = 100;
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             per--;
-            if(per<0)
+            if (per < 0)
                 per = 100;
             else {
                 cir.setProgress(per);
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
 //                clockView.onGradientStart();
 //            }
 //        },3000);
-           clockView.onStart();
+        clockView.onStart();
 //        clockView.setConnectStatus(DeviceStatus.CONNECTING);
-                clockView.postDelayed(new Runnable() {
+        clockView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 clockView.onStop();
@@ -68,19 +69,19 @@ public class MainActivity extends AppCompatActivity {
                 final float second = calendar.get(Calendar.SECOND) + milliSecond / 1000;
                 final float minute = calendar.get(Calendar.MINUTE) + second / 60;
                 final float hour = calendar.get(Calendar.HOUR) + minute / 60;
-                PropertyValuesHolder hourHolder = PropertyValuesHolder.ofFloat("hour", 10.17f,hour<=10?hour+12:hour);
-                PropertyValuesHolder minuteHolder  = PropertyValuesHolder.ofFloat("min", 10,minute<=10?minute+60:minute);
-                PropertyValuesHolder secHolder  = PropertyValuesHolder.ofFloat("sec", 0,second+2);
+                PropertyValuesHolder hourHolder = PropertyValuesHolder.ofFloat("hour", 10.17f, hour <= 10 ? hour + 12 : hour);
+                PropertyValuesHolder minuteHolder = PropertyValuesHolder.ofFloat("min", 10, minute <= 10 ? minute + 60 : minute);
+                PropertyValuesHolder secHolder = PropertyValuesHolder.ofFloat("sec", 0, second + 2);
                 ValueAnimator clockAni = ValueAnimator
-                        .ofPropertyValuesHolder(hourHolder, minuteHolder,secHolder)
+                        .ofPropertyValuesHolder(hourHolder, minuteHolder, secHolder)
                         .setDuration(2000);
                 clockAni.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        clockView.setTimeDegree((float)valueAnimator.getAnimatedValue("hour"),
-                                (float)valueAnimator.getAnimatedValue("min"),
-                                (float)valueAnimator.getAnimatedValue("sec")
-                                        );
+                        clockView.setTimeDegree((float) valueAnimator.getAnimatedValue("hour"),
+                                (float) valueAnimator.getAnimatedValue("min"),
+                                (float) valueAnimator.getAnimatedValue("sec")
+                        );
                     }
                 });
                 clockAni.addListener(new Animator.AnimatorListener() {
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 clockView.setConnectStatus(DeviceStatus.CONNECTINGED);
                 clockAni.start();
             }
-        },1000);
+        }, 1000);
         this.recyclerview = (ListView) findViewById(R.id.recycler_view);
         this.clockDigit = (TextView) findViewById(R.id.clockDigit);
         recyclerview.setAdapter(new ListAdapter(this));

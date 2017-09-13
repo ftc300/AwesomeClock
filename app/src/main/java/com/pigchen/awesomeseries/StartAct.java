@@ -9,7 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.pigchen.awesomeseries.bazier.BazierAct;
+import com.pigchen.awesomeseries.cir.OilAct;
 import com.pigchen.awesomeseries.drag.DragAct;
+import com.pigchen.awesomeseries.page3.PageCurlActivity;
 import com.pigchen.awesomeseries.rotate.RotateAct;
 
 /**
@@ -37,7 +39,7 @@ public class StartAct extends AppCompatActivity {
                          i = new Intent(context, MainActivity.class);
                         break;
                     case 1:
-                         i = new Intent(context, RotateAct.class);
+                         i = new Intent(context, OilAct.class);
                         break;
                     case 2:
                          i = new Intent(context, RotateAct.class);
@@ -47,6 +49,9 @@ public class StartAct extends AppCompatActivity {
                         break;
                     case 4:
                          i = new Intent(context, BazierAct.class);
+                        break;
+                    case 5:
+                         i = new Intent(context, PageCurlActivity.class);
                         break;
                 }
                 startActivity(i);

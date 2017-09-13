@@ -26,7 +26,7 @@ public class StartAdapter extends RecyclerView.Adapter<StartAdapter.StartViewHol
         return this;
     }
     public StartAdapter(Context context) {
-        mTitles = new String[]{"时钟","圆弧旋转","圆形进度","DragView","贝塞尔"};
+        mTitles = new String[]{"时钟","圆弧旋转","圆形进度","DragView","贝塞尔","说明书"};
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
